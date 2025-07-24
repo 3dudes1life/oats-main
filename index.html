@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dabby the Unicorn: Spam Fighter</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+      background: linear-gradient(to bottom right, #6e00a8, #ff8ee3);
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+      padding: 40px 20px;
+    }
+
+    img {
+      max-width: 220px;
+      margin: 20px auto;
+    }
+
+    h1 {
+      font-size: 2.4em;
+      color: #ffd1f9;
+      margin-bottom: 0.3em;
+    }
+
+    p {
+      font-size: 1.2em;
+      max-width: 600px;
+      margin: 10px auto;
+      color: #fff;
+      text-shadow: 0 0 5px #00000066;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 25px;
+      padding: 15px 30px;
+      font-size: 1.1em;
+      background-color: #ff66b2;
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: background 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #ff338f;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #f0c6ec;
+      text-shadow: 0 0 5px #00000044;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="glitterCanvas"></canvas>
+  <div class="content">
+    <img src="dabby.png" alt="Dabby the Unicorn" />
+    <h1>Hi, I'm Dabby 🦄</h1>
+    <p>Since June 1, 2025, I’ve helped fight off over <strong><span id="bot-counter">150,000</span>+ spam bots</strong>.</p>
+    <p>It’s 2025, and apparently even family-friendly festivals need firewalls. If you're a real human, hit the button below to enjoy the full Out at the Fair experience.</p>
+    <a class="button" href="https://main.outatthefair.com">Enter the Site</a>
+    <div class="footer">
+      🛡️ Powered by Dabby the Unicorn and a very tired firewall team at Cloudflare.
+    </div>
+  </div>
+
+  <script>
+    // Glitter effect
+    const canvas = document.getElementById('glitterCanvas');
+    const ctx = canvas.getContext('2d');
+    let glitter = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function createGlitter() {
+      glitter = Array.from({ length: 150 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2 + 1,
+        dx: Math.random() * 0.6 - 0.3,
+        dy: Math.random() * 1.5 + 0.4,
+        opacity: Math.random() * 0.5 + 0.5
+      }));
+    }
+
+    function drawGlitter() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      glitter.forEach(g => {
+        ctx.beginPath();
+        ctx.arc(g.x, g.y, g.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${g.opacity})`;
+        ctx.fill();
+        g.x += g.dx;
+        g.y += g.dy;
+        if (g.y > canvas.height) {
+          g.y = 0;
+          g.x = Math.random() * canvas.width;
+        }
+      });
+      requestAnimationFrame(drawGlitter);
+    }
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      createGlitter();
+    });
+
+    resizeCanvas();
+    createGlitter();
+    drawGlitter();
+  </script>
+
+  <script>
+    // Auto-increasing counter
+    let counterElement = document.getElementById('bot-counter');
+    let currentCount = 150000;
+
+    function updateCounter() {
+      const increase = Math.floor(Math.random() * 8) + 1; // +1 to +8 bots
+      currentCount += increase;
+      counterElement.textContent = currentCount.toLocaleString();
+    }
+
+    setInterval(updateCounter, 2000); // Every 2 seconds
+  </script>
+</body>
+</html>
